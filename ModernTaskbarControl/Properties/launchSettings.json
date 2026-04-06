@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "ModernTaskbarControl (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "ModernTaskbarControl (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
