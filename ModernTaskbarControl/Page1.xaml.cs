@@ -1,3 +1,4 @@
+using ABI.Windows.Foundation;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -12,6 +13,8 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Numerics;
+using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Security.Cryptography.X509Certificates;
 using Windows.Foundation;
@@ -21,6 +24,7 @@ using Windows.Foundation.Collections;
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace ModernTaskbarControl;
+
 
 /// <summary>
 /// An empty page that can be used on its own or navigated to within a Frame.
@@ -36,8 +40,6 @@ public sealed partial class Page1 : Page
 
     {
         InitializeComponent();
-        
-        object autoHideTbReg = null;
         object iconSizeReg = null;
         object iconCombineReg = null;
         object centerTbReg = null;
@@ -62,10 +64,18 @@ public sealed partial class Page1 : Page
 
 
         // Registry key checks
+
+
+        if (TaskbarControl.getAutoHide())
+        {
+            autoHideTbCheck.IsChecked = true;
+        }
+
+
         if (iconCombineReg != null)
         {
-            int iconLocation = (int)iconCombineReg;
-            tbButtonsCombobox.SelectedIndex = iconLocation;
+            int iconCombine = (int)iconCombineReg;
+            tbButtonsCombobox.SelectedIndex = iconCombine;
         }
 
         if (iconSizeReg != null)
@@ -86,12 +96,14 @@ public sealed partial class Page1 : Page
 
     private void autoHideTbCheck_Checked(object sender, RoutedEventArgs e)
     {
-        Debug.WriteLine("autoHideTbChecked");
+        if (regLock) { return; }
+        TaskbarControl.SetAutoHide(true);
     }
 
     private void autoHideTbCheck_Unchecked(object sender, RoutedEventArgs e)
     {
-
+        if (regLock) { return; }
+        TaskbarControl.SetAutoHide(false);
     }
 
     private void useSmallIconsCheck_Checked(object sender, RoutedEventArgs e)
@@ -133,5 +145,55 @@ public sealed partial class Page1 : Page
     private void selectIconsBtn_Click(object sender, RoutedEventArgs e)
     {
         if (regLock) { return; }
+    }
+}
+
+public class TaskbarControl
+{
+    private const int ABM_SETSTATE = 10;
+    private const int ABS_AUTOHIDE = 1;
+    private const int ABS_ALWAYSONTOP = 2; // Standard state
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct APPBARDATA
+    {
+        public uint cbSize;
+        public IntPtr hWnd;
+        public uint uCallbackMessage;
+        public uint uEdge;
+        public RECT rc;
+        public IntPtr lParam;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct RECT
+    {
+        public int left, top, right, bottom;
+    }
+
+    [DllImport("shell32.dll", CallingConvention = CallingConvention.StdCall)]
+    private static extern uint SHAppBarMessage(uint dwMessage, ref APPBARDATA pData);
+
+    [DllImport("user32.dll", SetLastError = true)]
+    private static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+
+    public static void SetAutoHide(bool enable)
+    {
+        APPBARDATA abd = new APPBARDATA();
+        abd.cbSize = (uint)Marshal.SizeOf(typeof(APPBARDATA));
+        abd.hWnd = FindWindow("Shell_TrayWnd", null);
+        abd.lParam = (IntPtr)(enable ? ABS_AUTOHIDE : ABS_ALWAYSONTOP);
+
+        SHAppBarMessage(ABM_SETSTATE, ref abd);
+    }
+
+    public static bool getAutoHide()
+    {
+            APPBARDATA abd = new APPBARDATA();
+            abd.cbSize = (uint)Marshal.SizeOf(typeof(APPBARDATA));
+            abd.hWnd = FindWindow("Shell_TrayWnd", null);
+    
+            uint state = SHAppBarMessage(ABM_SETSTATE, ref abd);
+            return (state & ABS_AUTOHIDE) == ABS_AUTOHIDE;
     }
 }
