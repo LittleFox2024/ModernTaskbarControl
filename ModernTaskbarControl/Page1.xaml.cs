@@ -152,7 +152,8 @@ public class TaskbarControl
 {
     private const int ABM_SETSTATE = 10;
     private const int ABS_AUTOHIDE = 1;
-    private const int ABS_ALWAYSONTOP = 2; // Standard state
+    private const int ABS_ALWAYSONTOP = 2;
+    private const int ABM_GETSTATE = 4;
 
     [StructLayout(LayoutKind.Sequential)]
     private struct APPBARDATA
@@ -189,11 +190,15 @@ public class TaskbarControl
 
     public static bool getAutoHide()
     {
-            APPBARDATA abd = new APPBARDATA();
-            abd.cbSize = (uint)Marshal.SizeOf(typeof(APPBARDATA));
-            abd.hWnd = FindWindow("Shell_TrayWnd", null);
+        APPBARDATA abd = new APPBARDATA();
+        abd.cbSize = (uint)Marshal.SizeOf(typeof(APPBARDATA));
+        abd.hWnd = FindWindow("Shell_TrayWnd", null);
     
-            uint state = SHAppBarMessage(ABM_SETSTATE, ref abd);
-            return (state & ABS_AUTOHIDE) == ABS_AUTOHIDE;
+        uint state = SHAppBarMessage(ABM_GETSTATE, ref abd);
+        if (state == ABS_AUTOHIDE)
+        {
+            return (true);
+        }
+        return false;
     }
 }
