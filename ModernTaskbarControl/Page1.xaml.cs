@@ -20,15 +20,9 @@ using System.Security.Cryptography.X509Certificates;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
-
 namespace ModernTaskbarControl;
+//Taskbar page
 
-
-/// <summary>
-/// An empty page that can be used on its own or navigated to within a Frame.
-/// </summary>
 public sealed partial class Page1 : Page
 
 {
@@ -166,6 +160,21 @@ public sealed partial class Page1 : Page
             CreateNoWindow = true,
             UseShellExecute = false
         });
+    }
+
+    private void searchComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+
+    }
+
+    private void taskViewCheck_Checked(object sender, RoutedEventArgs e)
+    {
+
+    }
+
+    private void taskViewCheck_Unchecked(object sender, RoutedEventArgs e)
+    {
+
     }
 }
 

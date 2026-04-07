@@ -57,7 +57,21 @@
         <Rectangle Fill="White" Stroke="LightGray" StrokeThickness="1" RadiusX="5" RadiusY="5"
            Margin="-3,300,-3,5"></Rectangle>
         <TextBlock Text="Taskbar items" FontWeight="Bold" Margin="5,308,0,0"></TextBlock>
-
+        
+        <!--Search-->
+        <TextBlock Text="Search" Margin="5,335,10,10"></TextBlock>
+        <ComboBox x:Name="searchComboBox" SelectionChanged="searchComboBox_SelectionChanged"
+                  Margin="150,332,15,5" PlaceholderText="Hide" Width="180" HorizontalAlignment="Right">
+            <x:String>Hide</x:String>
+            <x:String>Search icon only</x:String>
+            <x:String>Search icon and label</x:String>
+            <x:String>Search box</x:String>
+        </ComboBox>
+        
+        <!--Task view-->
+        <CheckBox x:Name="taskViewCheck" Checked="taskViewCheck_Checked" Unchecked="taskViewCheck_Unchecked"
+                  VerticalAlignment="Top" Margin="5,365,10,10"></CheckBox>
+        <TextBlock Text="Show task view button" Margin="30,370,10,10"></TextBlock>
 
 
     </Grid>
