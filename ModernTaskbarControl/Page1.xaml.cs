@@ -28,8 +28,9 @@ namespace ModernTaskbarControl;
 public sealed partial class Page1 : Page
 
 {
-    public string exAdvRegKeyPath = @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced";
-    public string exRegKeyPath = @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer";
+    public const string exAdvRegKeyPath = @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced";
+    public const string exRegKeyPath = @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer";
+    bool regLock = true;
 
     public Page1()
 
@@ -71,9 +72,7 @@ public sealed partial class Page1 : Page
         {
             int iconSize = (int)iconSizeReg;
             Debug.WriteLine("iconSize: " + iconSize);
-            if (iconSize == 0)
-            { useSmallIconsCheck.IsChecked = true; }
-            else { useSmallIconsCheck.IsChecked = false; }
+            if (iconSize == 0){ useSmallIconsCheck.IsChecked = true; }
         }
 
         if (centerTbReg != null)
@@ -82,6 +81,7 @@ public sealed partial class Page1 : Page
             Debug.WriteLine("centerTb: " + centerTb);
             centerTbCombobox.SelectedIndex = centerTb;
         }
+        regLock = false;
     }
 
     private void autoHideTbCheck_Checked(object sender, RoutedEventArgs e)
@@ -96,28 +96,42 @@ public sealed partial class Page1 : Page
 
     private void useSmallIconsCheck_Checked(object sender, RoutedEventArgs e)
     {
-        try
+        //If Registry.SetValue won't work, I'll just use a workaround. くそ野郎.
+        if (regLock) { return; }
+        Process.Start(new ProcessStartInfo
         {
-            Registry.SetValue(exAdvRegKeyPath, "IconSizePreference", 0, RegistryValueKind.DWord);
-        } catch { Debug.WriteLine("Error setting key."); }
+            FileName = "cmd.exe",
+            Arguments = "/c reg add HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced /v IconSizePreference /t REG_DWORD /d 0 /f",
+            CreateNoWindow = true,
+            UseShellExecute = false
+        });
     }
 
     private void useSmallIconsCheck_Unchecked(object sender, RoutedEventArgs e)
     {
+        if (regLock) { return; }
+        Process.Start(new ProcessStartInfo
+        {
+            FileName = "cmd.exe",
+            Arguments = "/c reg add HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced /v IconSizePreference /t REG_DWORD /d 1 /f",
+            CreateNoWindow = true,
+            UseShellExecute = false
+        });
 
     }
 
     private void centerTbCombobox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-
+        if (regLock) { return; }
     }
 
     private void tbButtonsCombobox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-
+        if (regLock) { return; }
     }
 
     private void selectIconsBtn_Click(object sender, RoutedEventArgs e)
     {
+        if (regLock) { return; }
     }
 }
