@@ -159,6 +159,13 @@ public sealed partial class Page1 : Page
     private void selectIconsBtn_Click(object sender, RoutedEventArgs e)
     {
         if (regLock) { return; }
+        Process.Start(new ProcessStartInfo
+        {
+            FileName = "cmd.exe",
+            Arguments = "/c start ms-settings:notifications",
+            CreateNoWindow = true,
+            UseShellExecute = false
+        });
     }
 }
 
