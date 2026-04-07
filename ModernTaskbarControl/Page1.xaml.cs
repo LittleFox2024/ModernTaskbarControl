@@ -64,8 +64,6 @@ public sealed partial class Page1 : Page
 
 
         // Registry key checks
-
-
         if (TaskbarControl.getAutoHide())
         {
             autoHideTbCheck.IsChecked = true;
@@ -135,11 +133,27 @@ public sealed partial class Page1 : Page
     private void centerTbCombobox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (regLock) { return; }
+        Process.Start(new ProcessStartInfo
+        {
+            FileName = "cmd.exe",
+            Arguments = "/c reg add HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced /v TaskbarAl /t REG_DWORD /f /d "
+            + centerTbCombobox.SelectedIndex,
+            CreateNoWindow = true,
+            UseShellExecute = false
+        });
     }
 
     private void tbButtonsCombobox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (regLock) { return; }
+        Process.Start(new ProcessStartInfo
+        {
+            FileName = "cmd.exe",
+            Arguments = "/c reg add HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced /v TaskbarGlomLevel /t REG_DWORD /f /d "
+            + tbButtonsCombobox.SelectedIndex,
+            CreateNoWindow = true,
+            UseShellExecute = false
+        });
     }
 
     private void selectIconsBtn_Click(object sender, RoutedEventArgs e)
