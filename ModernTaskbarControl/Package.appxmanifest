@@ -7,8 +7,9 @@
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
   xmlns:systemai="http://schemas.microsoft.com/appx/manifest/systemai/windows10"
   xmlns:iot="http://schemas.microsoft.com/appx/manifest/iot/windows10"
+  xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5"
   xmlns:uap18="http://schemas.microsoft.com/appx/manifest/uap/windows10/18"
-  IgnorableNamespaces="uap rescap systemai iot uap18">
+  IgnorableNamespaces="uap mp rescap systemai iot uap5 uap18">
 
   <Identity
     Name="d1ebf08e-b8b8-4323-a380-734f6a1c0bc3"
@@ -19,7 +20,7 @@
 
   <Properties>
     <DisplayName>ModernTaskbarControl</DisplayName>
-    <PublisherDisplayName>btdef</PublisherDisplayName>
+    <PublisherDisplayName>LittleFox</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
@@ -36,16 +37,23 @@
     <Application Id="App"
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$" uap18:TrustLevel="mediumIL" >
-      <uap:VisualElements
-        DisplayName="ModernTaskbarControl"
-        Description="ModernTaskbarControl"
-        BackgroundColor="transparent"
-        Square150x150Logo="Assets\Square150x150Logo.png"
-        Square44x44Logo="Assets\Square44x44Logo.png">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" />
-        <uap:SplashScreen Image="Assets\SplashScreen.png" />
-      </uap:VisualElements>
-    </Application>
+		<uap:VisualElements
+		  DisplayName="ModernTaskbarControl"
+		  Description="ModernTaskbarControl"
+		  BackgroundColor="transparent"
+		  Square150x150Logo="Assets\Square150x150Logo.png"
+		  Square44x44Logo="Assets\Square44x44Logo.png">
+			<uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" />
+			<uap:SplashScreen Image="Assets\SplashScreen.png" />
+		</uap:VisualElements>
+		<Extensions>
+			<uap5:Extension Category="windows.appExecutionAlias" Executable="ModernTaskbarControl.exe" EntryPoint="windows.fullTrustApplication">
+				<uap5:AppExecutionAlias>
+					<uap5:ExecutionAlias Alias="tbctl.exe" />
+				</uap5:AppExecutionAlias>
+			</uap5:Extension>
+		</Extensions>
+	</Application>
   </Applications>
 
   <Capabilities>
