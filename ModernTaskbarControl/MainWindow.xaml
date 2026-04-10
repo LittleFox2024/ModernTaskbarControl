@@ -14,12 +14,21 @@
     </Window.SystemBackdrop>
 
     <Grid>
-        <SelectorBar x:Name="SelectorBar" SelectionChanged="SelectorBar_SelectionChanged">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TitleBar
+        x:Name="titleBar" Title="Taskbar Properties" FontSize="13"
+        IsPaneToggleButtonVisible="False" Grid.Row="0"></TitleBar>
+        <SelectorBar Grid.Row="1" Margin="0,-5,0,0" x:Name="SelectorBar" SelectionChanged="SelectorBar_SelectionChanged">
             <SelectorBarItem x:Name="SelectorBarItemRecent" 
                      Text="Taskbar" IsSelected="True"/>
             <SelectorBarItem x:Name="SelectorBarItemShared" 
                      Text="Start"/>
         </SelectorBar>
-        <Frame x:Name="ContentFrame" IsNavigationStackEnabled="False" Margin="10,60,10,10"/>
+        <Frame Grid.Row="2" x:Name="ContentFrame" IsNavigationStackEnabled="False"/>
     </Grid>
 </Window>

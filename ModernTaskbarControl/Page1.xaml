@@ -8,71 +8,209 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid>
 
-        <Rectangle Fill="White" Stroke="LightGray" StrokeThickness="1" RadiusX="5" RadiusY="5"
-                   Margin="-3,-7,-3,300"></Rectangle>
-        
-        <TextBlock Text="Taskbar Appearance" FontWeight="Bold" Margin="5,1,0,0"></TextBlock>
-        
-        <!--Auto-hide taskbar-->
-        <CheckBox x:Name="autoHideTbCheck" Checked="autoHideTbCheck_Checked" Unchecked="autoHideTbCheck_Unchecked"
-                  VerticalAlignment="Top" Margin="5,24,10,10"></CheckBox>
-        <TextBlock Text="Auto-hide taskbar" Margin="30,30,10,10"></TextBlock>
-        
-        <!--Use small icons-->
-        <CheckBox x:Name="useSmallIconsCheck" Checked="useSmallIconsCheck_Checked" Unchecked="useSmallIconsCheck_Unchecked"
-                  VerticalAlignment="Top" Margin="5,50,10,10"></CheckBox>
-        <TextBlock Text="Use small icons" Margin="30,57,10,10"></TextBlock>
-        
-        <!--Centered taskbar-->
-        <TextBlock Text="Icon location on taskbar:" Margin="5,95,10,10"></TextBlock>
-        <ComboBox x:Name="centerTbCombobox" SelectionChanged="centerTbCombobox_SelectionChanged" 
-                  Margin="150,90,15,5" PlaceholderText="Center" Width="180" HorizontalAlignment="Right">
-            <x:String>Left</x:String>
-            <x:String>Center</x:String>
-        </ComboBox>
-        
-        <!--Taskbar buttons-->
-        <TextBlock Text="Taskbar buttons:" Margin="5,135,10,10"></TextBlock>
-        <ComboBox x:Name="tbButtonsCombobox" SelectionChanged="tbButtonsCombobox_SelectionChanged" 
-                  Margin="150,130,15,5" PlaceholderText="Always combine" Width="180" HorizontalAlignment="Right">
-            <x:String>Always combine</x:String>
-            <x:String>Combine when full</x:String>
-            <x:String>Never combine</x:String>
-        </ComboBox>
-       
+    <Page.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontWeight" Value="Normal"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <!--Style TargetType="CheckBox"-->
+            <!--Setter Property="VerticalAlignment" Value="Top"/-->
+        <!--/Style-->
+    </Page.Resources>
 
-        <!--Second set-->
-        <Rectangle Fill="White" Stroke="LightGray" StrokeThickness="1" RadiusX="5" RadiusY="5"
-           Margin="-3,200,-3,200"></Rectangle>
-
-        <TextBlock Text="Notification area" FontWeight="Bold" Margin="5,208,0,0"></TextBlock>
-        <TextBlock Text="Customize which notifications will appear in the notification area" 
-                   Margin="5,235,115,5" HorizontalAlignment="Left" TextWrapping="WrapWholeWords"></TextBlock>
-        <Button Content="Customize..." Margin="5,243,15,5" VerticalAlignment="Top" HorizontalAlignment="Right" Click="selectIconsBtn_Click"></Button>
-
-
-        <!--And finally...-->
-        <Rectangle Fill="White" Stroke="LightGray" StrokeThickness="1" RadiusX="5" RadiusY="5"
-           Margin="-3,300,-3,5"></Rectangle>
-        <TextBlock Text="Taskbar items" FontWeight="Bold" Margin="5,308,0,0"></TextBlock>
+    <StackPanel Spacing="8">
         
-        <!--Search-->
-        <TextBlock Text="Search" Margin="5,335,10,10"></TextBlock>
-        <ComboBox x:Name="searchComboBox" SelectionChanged="searchComboBox_SelectionChanged"
-                  Margin="150,332,15,5" PlaceholderText="Hide" Width="180" HorizontalAlignment="Right">
-            <x:String>Hide</x:String>
-            <x:String>Search icon only</x:String>
-            <x:String>Search icon and label</x:String>
-            <x:String>Search box</x:String>
-        </ComboBox>
+        <!--Taskbar expander-->
+        <Expander Header="Taskbar Appearance" FontWeight="Bold" Width="405" HorizontalAlignment="Center" IsExpanded="True">
+            <Expander.Content>
+                <StackPanel Width="365" Margin="0">
+                    <Grid RowSpacing="0" ColumnSpacing="5" Margin="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!--Auto-hide taskbar-->
+                        <CheckBox 
+                            x:Name="autoHideTbCheck" 
+                            Checked="autoHideTbCheck_Checked" 
+                            Unchecked="autoHideTbCheck_Unchecked"
+                            Grid.Row="0"
+                            Grid.Column="0">
+                        </CheckBox>
+                        <TextBlock 
+                            Text="Auto-hide taskbar" 
+                            Grid.Column="1"
+                            Grid.Row="0">
+                        </TextBlock>
+
+                        <!--Use small icons-->
+                        <CheckBox 
+                            x:Name="useSmallIconsCheck"
+                            Checked="useSmallIconsCheck_Checked"
+                            Unchecked="useSmallIconsCheck_Unchecked"
+                            Grid.Row="1"
+                            Grid.Column="0">
+
+                        </CheckBox>
+                        <TextBlock
+                            Text="Use small icons"
+                            Grid.Column="1"
+                            Grid.Row="1">
+                        </TextBlock>
+                    </Grid>
+                    <Grid RowSpacing="0" ColumnSpacing="0" Margin="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="35"/>
+                            <RowDefinition Height="35"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="6*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!--Centered taskbar-->
+                        <TextBlock
+                            Text="Icon location on taskbar:"
+                            Grid.Row="0"
+                            Grid.Column="0">
+                        </TextBlock>
+                        <ComboBox 
+                            x:Name="centerTbCombobox" 
+                            SelectionChanged="centerTbCombobox_SelectionChanged"
+                            PlaceholderText="Center"
+                            Width="160"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            FontWeight="Normal">
+                            <x:String>Left</x:String>
+                            <x:String>Center</x:String>
+                        </ComboBox>
+
+                        <!--Taskbar buttons-->
+                        <TextBlock
+                            Text="Taskbar buttons:"
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            TextWrapping="WrapWholeWords">
+                        </TextBlock>
+                        <ComboBox
+                            x:Name="tbButtonsCombobox"
+                            SelectionChanged="tbButtonsCombobox_SelectionChanged"
+                            PlaceholderText="Always combine"
+                            Width="160"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            FontWeight="Normal">
+                            <x:String>Always combine</x:String>
+                            <x:String>Combine when full</x:String>
+                            <x:String>Never combine</x:String>
+                        </ComboBox>
+                    </Grid>
+                </StackPanel>
+            </Expander.Content>
+        </Expander>
+
+        <!--Notification area expander-->
+        <Expander Header="Notification Area" FontWeight="Bold" Width="405" HorizontalAlignment="Center" IsExpanded="True">
+            <Grid RowSpacing="0" ColumnSpacing="5" Margin="0" Width="365">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock
+                    Text="Customize which notifications will appear in the notification area"
+                    HorizontalAlignment="Left"
+                    TextWrapping="WrapWholeWords"
+                    Grid.Row="0"
+                    Grid.Column="0">
+                </TextBlock>
+                <Button
+                    Content="Customize..."
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Right"
+                    Click="selectIconsBtn_Click"
+                    Grid.Row="0"
+                    Grid.Column="1">
+                </Button>
+            </Grid>
+        </Expander>
         
-        <!--Task view-->
-        <CheckBox x:Name="taskViewCheck" Checked="taskViewCheck_Checked" Unchecked="taskViewCheck_Unchecked"
-                  VerticalAlignment="Top" Margin="5,365,10,10"></CheckBox>
-        <TextBlock Text="Show task view button" Margin="30,370,10,10"></TextBlock>
+        <!--Taskbar items expander-->
+        <Expander Header="Taskbar items" FontWeight="Bold" Width="405" HorizontalAlignment="Center" IsExpanded="True">
+            <StackPanel Width="365" Margin="0">
+
+                <Grid RowSpacing="0" ColumnSpacing="5" Margin="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!--Task view-->
+                    <CheckBox
+                        x:Name="taskViewCheck"
+                        Checked="taskViewCheck_Checked"
+                        Unchecked="taskViewCheck_Unchecked"
+                        VerticalAlignment="Top"
+                        Grid.Row="0"
+                        Grid.Column="0">
+                    </CheckBox>
+                    <TextBlock
+                        Text="Show task view button"
+                        Grid.Row="0"
+                        Grid.Column="1">
+                    </TextBlock>
+                </Grid>
+
+                <Grid RowSpacing="0" ColumnSpacing="0" Margin="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="35"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="5*"/>
+                        <ColumnDefinition Width="6*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!--Search-->
+                    <TextBlock
+                        Text="Search"
+                        Grid.Row="0"
+                        Grid.Column="0">
+                    </TextBlock>
+                    <ComboBox
+                        x:Name="searchComboBox"
+                        SelectionChanged="searchComboBox_SelectionChanged"
+                        PlaceholderText="Hide"
+                        Width="180"
+                        HorizontalAlignment="Right"
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        FontWeight="Normal">
+                        <x:String>Hide</x:String>
+                        <x:String>Search icon only</x:String>
+                        <x:String>Search icon and label</x:String>
+                        <x:String>Search box</x:String>
+                    </ComboBox>
+                </Grid>
+            </StackPanel>
+        </Expander>
 
 
-    </Grid>
+
+
+    </StackPanel>
 </Page>

@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
+using Microsoft.UI.Windowing;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -30,8 +31,16 @@ namespace ModernTaskbarControl
             IntPtr hWnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
             Microsoft.UI.WindowId windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(hWnd);
             Microsoft.UI.Windowing.AppWindow appWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(windowId);
-            appWindow.Resize(new Windows.Graphics.SizeInt32(500, 750));
+            appWindow.Resize(new Windows.Graphics.SizeInt32(550, 750));
+
+            this.ExtendsContentIntoTitleBar = true;
+            this.SetTitleBar(titleBar);
+
+            var presenter = AppWindow.Presenter as OverlappedPresenter;
+            presenter.IsMaximizable = presenter.IsMinimizable = presenter.IsResizable = false;
         }
+
+
 
         private void SelectorBar_SelectionChanged(SelectorBar sender, SelectorBarSelectionChangedEventArgs args)
         {
